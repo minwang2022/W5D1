@@ -8,16 +8,19 @@ class HashSet
 
   def insert(key)
     return false if include?(key)
-    self[key] = true
+    self[key.hash] << key
     self.count += 1
     resize! if self.count >= num_buckets
   end
 
   def include?(key)
-    self[key].include?(key)
+    self[key.hash].include?(key)
   end
 
   def remove(key)
+    return false if !self[key]
+    self.count -= 1 if self[key.hash].delete(key) 
+    
   end
 
   private
